@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.medical.doctor.dao.DoctorMapper">
+    <insert id="addDoctor" parameterType="doctor">
+        insert into t_doctor(dno, dname, dsex, department, position, phone)
+        VALUES
+       (#{dno}, #{dname}, #{dsex}, #{department}, #{position}, #{phone});
+    </insert>
+
+    <select id="queryDoctorByName" parameterType="String" resultType="doctor">
+      select * from t_doctor where dname = #{dname}
+    </select>
+
+    <select id="queryDoctorByDno" parameterType="String" resultType="doctor">
+      select * from t_doctor where dno = #{dno}
+    </select>
+
+    <select id="countDoctor" resultType="Integer">
+      select count(dno) from t_doctor
+    </select>
+
+    <select id="queryDoctorSeparated" parameterType="map" resultType="doctor">
+      select * from t_doctor
+          <where>
+            <if test="keyWord!=null">
+                dname like '%${keyWord}%'
+            </if>
+          </where>
+      limit #{start}, #{pageSize}
+    </select>
+
+    <delete id="delDoctorByDno" parameterType="String">
+        delete from t_doctor where dno = #{dno}
+    </delete>
+
+    <update id="updateDoctorByDno" parameterType="doctor">
+        update t_doctor set position = #{position}, department = #{department}, phone = #{phone}, count = #{count} where dno = #{dno}
+    </update>
+
+    <select id="getLastDno" resultType="String">
+        select dno from t_doctor  order by dno desc limit 1
+    </select>
+
+    <select id="queryAllDoctor" resultType="doctor">
+        select * from t_doctor
+    </select>
+</mapper>

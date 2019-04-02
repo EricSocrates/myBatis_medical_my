@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.medical.patient.dao.PatientMapper">
+
+    <insert id="addPatient" parameterType="patient">
+
+        <selectKey keyProperty="pno" resultType="String"
+                   order="BEFORE">
+            select replace(uuid(),'-','') as id from dual
+        </selectKey>
+        insert into t_patient
+        VALUES
+       (#{pno}, #{pname}, #{identify}, #{psex}, #{age}, #{dname}, #{department}, #{totalcost}, #{treatedate}, #{arrivedate}, #{notes});
+    </insert>
+
+    <select id="countDoctorByDay" parameterType="map" resultType="Integer">
+        select count(*) from t_patient group by dname, treatedate having dname = #{dname} and treatedate = #{treatedate}
+    </select>
+
+    <select id="queryPatientSeparated" parameterType="map" resultType="patient">
+        select * from t_patient
+        <where>
+            <if test="dKeyWord!=null">
+                dname like '%${dKeyWord}%'
+            </if>
+
+            <if test="pKeyWord!=null">
+                pname like '%${pKeyWord}%'
+            </if>
+        </where>
+        limit #{start}, #{pageSize}
+    </select>
+
+    <select id="countPatient" resultType="Integer">
+      select count(pno) from t_patient
+    </select>
+
+    <delete id="delPatientByPno" parameterType="String">
+        delete from t_patient where pno = #{pno}
+    </delete>
+</mapper>

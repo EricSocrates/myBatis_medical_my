@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties resource="db.properties"></properties>
+	<settings>
+		<setting name="logImpl" value="LOG4J"></setting>
+	</settings>
+	<typeAliases>
+		<typeAlias type="com.test.medical.doctor.entity.Doctor" alias="doctor"></typeAlias>
+		<typeAlias type="com.test.medical.doctor.entity.Department" alias="dept"></typeAlias>
+		<typeAlias type="com.test.medical.doctor.entity.Position" alias="position"></typeAlias>
+		<typeAlias type="com.test.medical.patient.entity.Patient" alias="patient"></typeAlias>
+	</typeAliases>
+	<environments default="mysql">
+		<environment id="mysql">
+			<transactionManager type="JDBC"></transactionManager>
+			<dataSource type="POOLED">
+				<property name="driver" value="${m.driver}"></property>
+				<property name="url" value="${m.url}"></property>
+				<property name="username" value="${m.user}"></property>
+				<property name="password" value="${m.pwd}"></property>
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource="com/test/medical/doctor/entity/DepartmentMapper.xml"></mapper>
+		<mapper resource="com/test/medical/doctor/entity/DoctorMapper.xml"></mapper>
+		<mapper resource="com/test/medical/doctor/entity/PositionMapper.xml"></mapper>
+		<mapper resource="com/test/medical/patient/entity/PatientMapper.xml"></mapper>
+	</mappers>
+</configuration>
